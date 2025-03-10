@@ -18,6 +18,7 @@ export interface CreateTodoProps {
 export interface TodoProps {
   theme: 'dark' | 'light';
   todoList: Todo[];
+  localStorageName: string
 }
 
 export type LoggerLevel = 'log' | 'warn' | 'info';

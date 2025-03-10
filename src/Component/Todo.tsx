@@ -1,10 +1,17 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import TodoItem from './TodoItem';
 import CreateTodo from './CreateTodo';
 import { Todo as TodoType, TodoProps } from '../types';
 
-export default function Todo({ theme, todoList }: TodoProps) {
-  const [todos, setTodos] = useState<TodoType[]>(todoList);
+export default function Todo({ theme, todoList, localStorageName }: TodoProps) {
+  const [todos, setTodos] = useState<TodoType[]>(() => {
+    let localStorageList = localStorage.getItem(localStorageName);
+    return localStorageList ? JSON.parse(localStorageList) : todoList;
+  });
+
+  useEffect(() =>{
+    localStorage.setItem(localStorageName, JSON.stringify(todos));
+  }, [todos])
 
   const toggleStatus = useCallback((id: string) => {
     setTodos(todos =>

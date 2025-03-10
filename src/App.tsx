@@ -27,6 +27,7 @@ function App() {
       <Todo 
         theme={isDark ? 'dark' : 'light'}
         todoList={todoList}
+        localStorageName='todo_list'
       />
     </div>
   )
