@@ -1,9 +1,8 @@
-import { memo } from 'react';
+import { memo, useActionState } from 'react';
 import { CreateTodoProps } from '../types';
-import { useFormState } from 'react-dom';
 
 const CreateTodo = memo(function CreateTodo({ addTodo }: CreateTodoProps) {
-  const [, action] = useFormState(async (prevState: any, formData: FormData) => {
+  const [, action] = useActionState(async (prevState: any, formData: FormData) => {
     const todo = formData.get('todo') as string;
     if (todo && todo.trim()) {
       addTodo(todo.trim());
