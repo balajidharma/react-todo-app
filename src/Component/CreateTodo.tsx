@@ -1,23 +1,22 @@
 import { memo } from 'react';
 import { CreateTodoProps } from '../types';
+import { useFormState } from 'react-dom';
 
 const CreateTodo = memo(function CreateTodo({ addTodo }: CreateTodoProps) {
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const todoInput = form.elements.namedItem('todo') as HTMLInputElement;
-    if (todoInput.value.trim()) {
-      addTodo(todoInput.value);
-      form.reset();
+  const [, action] = useFormState(async (prevState: any, formData: FormData) => {
+    const todo = formData.get('todo') as string;
+    if (todo && todo.trim()) {
+      addTodo(todo.trim());
     }
-  }
+    return prevState;
+  }, null);
 
   console.log('Rendering <CreateTodo />');
 
   return (
-    <form 
-      className='create-todo' 
-      onSubmit={handleSubmit}
+    <form
+      className="create-todo"
+      action={action}
       aria-label="Create new todo"
     >
       <label htmlFor="todo">
@@ -30,7 +29,7 @@ const CreateTodo = memo(function CreateTodo({ addTodo }: CreateTodoProps) {
           required
         />
       </label>
-      <button type='submit'>Add</button>
+      <button type="submit">Add</button>
     </form>
   );
 });
